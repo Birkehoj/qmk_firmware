@@ -16,8 +16,8 @@ You should have received a copy of the GNU General Public License
 along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#ifndef ERGODOX_EZ_CONFIG_H
-#define ERGODOX_EZ_CONFIG_H
+#ifndef BIRK_ERGODOX_80_CONFIG_H
+#define BIRK_ERGODOX_80_CONFIG_H
 
 #include "config_common.h"
 
@@ -41,14 +41,13 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #define MOUSEKEY_WHEEL_DELAY 0
 
 #define DEBOUNCE 30
-
 #define TAPPING_TOGGLE  1
 
 #define AUTO_SHIFT_TIMEOUT 150
 // #define NO_AUTO_SHIFT_SPECIAL
 //#define NO_AUTO_SHIFT_NUMERIC
 
-
+#define DANCING_TERM 175
 
 /* define if matrix has ghost */
 //#define MATRIX_HAS_GHOST

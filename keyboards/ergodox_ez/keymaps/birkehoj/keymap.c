@@ -4,13 +4,20 @@
 #include "action_layer.h"
 #include "version.h"
 
+#include "keycode.h"
+
+#include "tap_dance/tap_dance_setup.h"
+#include "tap_dance/tap_dances.h"
+#include "tap_dance/tap_dance_actions.h"
+#include "tap_dance/mod_tap_layer_dances/function_row_actions.h"
+
 #define ML_BASE 0 // default layer
 #define ML_SYMB 1 // symbols
 #define ML_MDIA 2 // media keys
 #define ML_FUNC 3 // special functions, git etc.
 
 enum custom_keycodes {
-  ARROW_RIGHT = SAFE_RANGE,
+    CK_ARROW_RIGHT = SAFE_RANGE,
 };
 
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
@@ -33,19 +40,19 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
  *                                 | space| tab  |  BkSp|       | PgUp |  up   | Enter|
  *                                 |------|------|------|       |------|-------|------|
  *                                 | left |  L1  |  L2  |       | PgDn |  down | right|
- *                                 `--------------------'       `----------------------'
+ *                                 `--------------------'       `----------------------
  */
 // If it accepts an argument (i.e, is a function), it doesn't need KC_.
 // Otherwise, it needs KC_*
 [ML_BASE] = LAYOUT_ergodox_pretty_80(  // layer 0 : default
-    KC_TILD,          KC_1,            KC_2,        KC_3,        KC_4,      KC_5,      KC_LBRACKET,                                     KC_RBRACKET,    KC_6,      KC_7,           KC_8,           KC_9,           KC_0,      KC_EQUAL,
-    KC_DELETE,        KC_Q,            KC_W,        KC_E,        KC_R,      KC_T,      KC_LPRN,                                         KC_RPRN,        KC_Y,      KC_U,           KC_I,           KC_O,           KC_P,      KC_MINUS,
+    KC_ESC,        TD(TD_1_F1),  TD(TD_2_F2),   TD(TD_3_F3), TD(TD_4_F4), TD(TD_5_F5), KC_HOME,                                         KC_END, TD(TD_6_F6), TD(TD_7_F7), TD(TD_8_F8), TD(TD_9_F9), TD(TD_0_F10), TD(TD_EQ_F11),
+    TD(TD_TILD_ESC),  KC_Q,            KC_W,        KC_E,        KC_R,      KC_T,      KC_LPRN,                                         KC_RPRN,        KC_Y,      KC_U,           KC_I,           KC_O,           KC_P,      TD(TD_MIN_F12),
     KC_BSPACE,        KC_A,            KC_S,        KC_D,        KC_F,      KC_G,                                                                       KC_H,      KC_J,           KC_K,           KC_L,           KC_SCOLON, KC_QUOTE,
-    KC_LSFT,          KC_Z,            KC_X,        KC_C,        KC_V,      KC_B,      KC_LCBR,                                         KC_RCBR,        KC_N,      KC_M,           KC_COMMA,       KC_DOT,         KC_SLASH,  KC_RSFT,
-    KC_LGUI,          KC_LCTL, LALT_T(ARROW_RIGHT), KC_CAPSLOCK, LT(ML_SYMB,KC_HOME),                                                   LT(ML_SYMB,KC_END), TG(ML_FUNC), LALT_T(KC_BSLASH),   KC_RCTL,   KC_LGUI,
-                                                                                       LCTL(KC_Z), LCTL(LSFT(KC_Z)), LCTL(KC_C),    LCTL(KC_V),
-                                                                LT(ML_SYMB, KC_SPACE), LT(ML_MDIA, KC_TAB),  TG(ML_FUNC),   KC_PGUP,    KC_UP,         LT(ML_SYMB, KC_ENTER),
-                                                                KC_LEFT,               TG(ML_MDIA),          TG(ML_SYMB),   KC_PGDOWN,  KC_DOWN,       KC_RIGHT
+    KC_LSFT,          KC_Z,            KC_X,        KC_C,        KC_V,      KC_B,      KC_LBRACKET,                                         KC_RBRACKET, KC_N,      KC_M,           KC_COMMA,       KC_DOT,         KC_SLASH,  KC_RSFT,
+    KC_LGUI,          KC_LCTL, LALT_T(CK_ARROW_RIGHT), KC_CAPSLOCK, LT(ML_SYMB,KC_HOME),                                                   LT(ML_SYMB,KC_END), KC_BSLASH, KC_LALT,   KC_RCTL,   KC_LGUI,
+                                                                                              LCTL(KC_Z), LCTL(LSFT(KC_Z)), LCTL(KC_C),    LCTL(KC_V),
+                                                                KC_SPACE, KC_TAB,             TG(ML_SYMB),   KC_PGUP,    KC_UP,         KC_ENTER,
+                                                                KC_LEFT,          KC_DELETE,  TG(ML_MDIA),   KC_PGDOWN,  KC_DOWN,       KC_RIGHT
     ),
 /* Keymap 1: Symbol Layer
  *
@@ -84,9 +91,9 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     KC_WWW_BACK,    KC_TRANSPARENT, KC_MS_WH_LEFT,  KC_MS_WH_DOWN,  KC_MS_WH_RIGHT, KC_TRANSPARENT,                                                                 KC_TRANSPARENT, KC_MS_LEFT,     KC_MS_DOWN,         KC_MS_RIGHT,        KC_TRANSPARENT, KC_TRANSPARENT,
     KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT,                                 KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT, KC_MEDIA_PREV_TRACK,KC_MEDIA_NEXT_TRACK,KC_TRANSPARENT, KC_TRANSPARENT,
     KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT, KC_MS_BTN1,     KC_WWW_BACK,                                                                                                    KC_WWW_FORWARD, KC_MS_BTN2,         KC_TRANSPARENT,     KC_TRANSPARENT, KC_TRANSPARENT,
-                                                                                    KC_SYSTEM_POWER, KC_SYSTEM_SLEEP,                                      KC_TRANSPARENT, KC_SYSTEM_WAKE,
-                                                                    KC_MS_BTN1,     KC_MEDIA_PLAY_PAUSE, KC_BRIGHTNESS_UP,                          KC_AUDIO_VOL_UP, KC_MS_BTN3, KC_MS_BTN2,
-                                                                    KC_MS_BTN1,     TG(ML_MDIA),         KC_BRIGHTNESS_DOWN,                        KC_AUDIO_VOL_DOWN,KC_MS_BTN3, KC_MS_BTN2
+                                                                                    KC_SYSTEM_POWER, KC_SYSTEM_SLEEP,                                      KC_MEDIA_PLAY_PAUSE, KC_SYSTEM_WAKE,
+                                                                    KC_MS_BTN1,     KC_BRIGHTNESS_UP, KC_TRANSPARENT,                          KC_AUDIO_VOL_UP, KC_MS_BTN3, KC_MS_BTN2,
+                                                                    KC_MS_BTN1,     KC_BRIGHTNESS_DOWN, KC_TRANSPARENT,                       KC_AUDIO_VOL_DOWN,KC_MS_BTN3, KC_MS_BTN2
 ),
 [ML_FUNC] = LAYOUT_ergodox_pretty_80(
     KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT,                                 KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT,
@@ -127,7 +134,7 @@ bool led_update_user(led_t led_state) {
 bool process_record_user(uint16_t keycode, keyrecord_t *record) {
   if (record->event.pressed) {
     switch (keycode) {
-      case ARROW_RIGHT:
+      case CK_ARROW_RIGHT:
         SEND_STRING ("->");
         return false;
     }
